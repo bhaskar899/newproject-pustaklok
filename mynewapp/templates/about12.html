@@ -1,0 +1,75 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %} Home page {% endblock %}
+
+{% block body %}
+
+<style>
+    .abou1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        gap: 30px;
+    }
+
+    .abou1 img {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        margin-top: 10px;
+    }
+
+    .abou1 .right {
+        width: 90%;
+        max-width: 600px;
+    }
+
+    .abou1 .right p {
+        line-height: 1.6;
+    }
+
+    .abou1 .btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    @media (min-width: 768px) {
+        .abou1 {
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            gap: 60px;
+        }
+
+        .abou1 img {
+            width: 300px;
+        }
+
+        .abou1 .btn {
+            width: 600px;
+        }
+    }
+</style>
+
+<div class="abou1">
+    <div class="left">
+        <img src="{% static 'img/sci4.jpg' %}" alt="The Basics of Robotics">
+    </div>
+    <div class="right">
+        <h2>The Basics Of Robotics</h2>
+        <p>
+            An e-book on the basics of robotics would likely cover foundational concepts, design principles, and theoretical aspects of robotics. <br><br>
+            It would delve into the core components of robots, their functionalities, and the underlying engineering and programming principles. <br><br>
+            Expect to find information on robot anatomy (joints, links, actuators, sensors), control systems, programming, and potentially some discussion on robot applications and future trends.
+        </p>
+        <p style="font-size:25px;">Rs. 1399</p>
+
+        <a href="{% url 'add_to_cart' 5 %}" class="btn btn-primary btn">Add To Cart</a><br>
+        <a href="{% url 'buy_now' %}?source=buy_now" class="btn btn-success btn">Buy Now</a>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,75 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %} Home page {% endblock %}
+
+{% block body %}
+
+<style>
+    .abou1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        gap: 30px;
+    }
+
+    .abou1 img {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        margin-top: 10px;
+    }
+
+    .abou1 .right {
+        width: 90%;
+        max-width: 600px;
+    }
+
+    .abou1 .right p {
+        line-height: 1.6;
+    }
+
+    .abou1 .btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    @media (min-width: 768px) {
+        .abou1 {
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            gap: 60px;
+        }
+
+        .abou1 img {
+            width: 300px;
+        }
+
+        .abou1 .btn {
+            width: 600px;
+        }
+    }
+</style>
+
+<div class="abou1">
+    <div class="left">
+        <img src="{% static 'img/book8.jpg' %}" alt="World War II and India’s Freedom Struggle">
+    </div>
+    <div class="right">
+        <h2>World War II and India’s Freedom Struggle</h2>
+        <p>
+            <strong>The Global Battle of World War II</strong> and the inspiring story of India’s fight for independence.<br><br>
+            From the dramatic Japanese surrender and the end of European colonialism to the changes in Europe and the Far East after the war, readers will see how the world transformed after this massive conflict.<br><br>
+            This book dives into India’s struggle against British rule, starting with the Mutiny of 1857 and leading to key turning points like the <strong>Jallianwala Bagh massacre</strong>, the bold <strong>Dandi March</strong>, and the inspiring leadership of <strong>Mahatma Gandhi</strong>. Learn about the rise of the Muslim League, the fierce Quit India Movement, and how it all led to Partition and India’s independence at midnight.
+        </p>
+        <p style="font-size:25px;">Rs. 299</p>
+
+        <a href="{% url 'add_to_cart' 5 %}" class="btn btn-primary btn">Add To Cart</a><br>
+        <a href="{% url 'buy_now' %}?source=buy_now" class="btn btn-success btn">Buy Now</a>
+    </div>
+</div>
+
+{% endblock %}

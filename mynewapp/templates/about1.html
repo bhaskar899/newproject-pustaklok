@@ -1,0 +1,69 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %} Home page {% endblock %}
+
+{% block body %}
+
+<style>
+    .abou1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        gap: 30px; /* Image aur text ke beech gap */
+    }
+
+    .abou1 img {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+    }
+
+    .abou1 .right {
+        width: 90%;
+        max-width: 600px;
+    }
+
+    .abou1 .right .btn {
+        width: 100%;
+    }
+
+    @media (min-width: 768px) {
+        .abou1 {
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            gap: 60px; /* Laptop/tablet me aur zyada space */
+        }
+
+        .abou1 img {
+            width: 300px;
+        }
+
+        .abou1 .right .btn {
+            width: 600px;
+        }
+    }
+</style>
+
+<div class="abou1">
+    <div class="left">
+        <img src="{% static 'img/book1.jpg' %}">
+    </div>
+    <div class="right">
+        <h2>India That Is Bharat</h2>
+        <p>
+            "India, That Is Bharat: Coloniality, Civilisation, Constitution" is a book by J. Sai Deepak that explores <br>
+            the impact of European colonialism on India's identity and constitutional framework.<br><br>
+            The book, the first in a trilogy, argues that the concept of "coloniality," particularly its religious and<br>
+            racial roots, has significantly shaped India's understanding of itself and its relationship with its Indic civilization.
+        </p>
+        <p style="font-size:25px;">Rs. 799</p>
+        <a href="{% url 'add_to_cart' 5 %}" class="btn btn-primary btn">Add To Cart</a><br><br>
+        <a href="{% url 'buy_now' %}?source=buy_now" class="btn btn-success btn">Buy Now</a>
+    </div>
+</div>
+
+{% endblock %}

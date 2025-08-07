@@ -1,0 +1,38 @@
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}  admin home page  {% endblock %}
+
+{% block body %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-xl-12">
+            <h2>Welcome Admin:-{{name}}</h2>
+            <h3 class="text-danger">{{msg}}</h3>
+            <h3 class="text-danger">{{status}}</h3>
+
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 col-lg-6 col-xl-6">
+            <a href="">
+           <img src="{% static 'img/mountain.jpg' %}" style="width:50%">
+                <p>manage all books</p>
+            </a>
+        </div>
+         <div class="col-md-6 col-lg-6 col-xl-6">
+             <a href="{% url 'admin_book' %}">
+           <img src="{% static 'img/moon.jpg' %}" style="width:50%">
+                 <p> show read book</p>
+             </a>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+

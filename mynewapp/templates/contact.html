@@ -1,0 +1,46 @@
+
+{% extends 'master.html' %}
+
+{% load static %}
+
+{% block title %}  Contact Us  {% endblock %}
+
+{% block body %}
+
+<section class="container mt-5" style="margin-bottom:150px;">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="p-5 shadow rounded-4 bg-light border border-success">
+        <h2 class="text-center mb-4 text-success">Contact Us</h2>
+        <form>
+          <div class="mb-3">
+            <label for="firstName" class="form-label">Enter Your Name:</label>
+            <input type="text" class="form-control" id="firstName" placeholder="Enter your first name">
+          </div>
+
+          <div class="mb-3">
+            <label for="phone" class="form-label">Mobile No.</label>
+            <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number">
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email ID</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter your email">
+          </div>
+
+          <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea class="form-control" id="message" rows="4" placeholder="Type your message here..."></textarea>
+          </div>
+
+          <div class="text-center">
+            <button type="submit" class="btn btn-warning px-5">Submit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+

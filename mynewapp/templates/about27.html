@@ -1,0 +1,78 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %} Home page {% endblock %}
+
+{% block body %}
+
+<style>
+    .abou1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        gap: 30px;
+    }
+
+    .abou1 img {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        margin-top: 10px;
+    }
+
+    .abou1 .right {
+        width: 90%;
+        max-width: 600px;
+    }
+
+    .abou1 .right p {
+        line-height: 1.7;
+        margin-bottom: 15px;
+    }
+
+    .abou1 .btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    @media (min-width: 768px) {
+        .abou1 {
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            gap: 60px;
+        }
+
+        .abou1 img {
+            width: 300px;
+        }
+
+        .abou1 .btn {
+            width: 600px;
+        }
+    }
+</style>
+
+<div class="abou1">
+    <div class="left">
+        <img src="{% static 'img/o3.jpg' %}" alt="The Power of Habit Book Cover">
+    </div>
+    <div class="right">
+        <h2>The Power of Habit</h2>
+        <p>
+            <strong>"The Power of Habit"</strong> by Charles Duhigg explores how habits work, how they are formed, and how they can be changed.
+            Through fascinating stories from businesses, sports, and personal lives, Duhigg presents the "habit loop"—cue, routine, reward—and explains how understanding this loop can help individuals and organizations improve behavior and achieve success.
+        </p>
+        <p>
+            This book is ideal for anyone looking to break bad habits, form good ones, and understand how small changes can lead to significant personal and professional growth.
+        </p>
+        <p style="font-size:25px; font-weight:bold;">Rs. 499</p>
+
+        <a href="{% url 'add_to_cart' 5 %}" class="btn btn-primary btn">Add To Cart</a><br>
+        <a href="{% url 'buy_now' %}?source=buy_now" class="btn btn-success btn">Buy Now</a>
+    </div>
+</div>
+
+{% endblock %}

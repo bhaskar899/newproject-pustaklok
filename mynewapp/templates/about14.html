@@ -1,0 +1,77 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %} Home page {% endblock %}
+
+{% block body %}
+
+<style>
+    .abou1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        gap: 30px;
+    }
+
+    .abou1 img {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        margin-top: 10px;
+    }
+
+    .abou1 .right {
+        width: 90%;
+        max-width: 600px;
+    }
+
+    .abou1 .right p {
+        line-height: 1.6;
+    }
+
+    .abou1 .btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    @media (min-width: 768px) {
+        .abou1 {
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            gap: 60px;
+        }
+
+        .abou1 img {
+            width: 300px;
+        }
+
+        .abou1 .btn {
+            width: 600px;
+        }
+    }
+</style>
+
+<div class="abou1">
+    <div class="left">
+        <img src="{% static 'img/nov2.jpg' %}" alt="The Great Gatsby">
+    </div>
+    <div class="right">
+        <h2>The Great Gatsby</h2>
+        <p>
+            'It was one of those rare smiles with a quality of eternal reassurance in it, that you may come across four or five times in life.' <br><br>
+
+            Jay Gatsby is the man who has everything. But one thing will always be out of his reach ... Everybody who is anybody is seen at his glittering parties. Day and night his Long Island mansion buzzes with bright young things drinking, dancing and debating his mysterious character. For Gatsby – young, handsome, fabulously rich – always seems alone in the crowd, watching and waiting, though no one knows what for. <br><br>
+
+            Beneath the shimmering surface of his life he is hiding a secret: a silent longing that can never be fulfilled. And soon this destructive obsession will force his world to unravel.
+        </p>
+        <p style="font-size:25px;">Rs. 699</p>
+
+        <a href="{% url 'add_to_cart' 5 %}" class="btn btn-primary btn">Add To Cart</a><br>
+        <a href="{% url 'buy_now' %}?source=buy_now" class="btn btn-success btn">Buy Now</a>
+    </div>
+</div>
+
+{% endblock %}

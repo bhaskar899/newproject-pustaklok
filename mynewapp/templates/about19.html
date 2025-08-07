@@ -1,0 +1,77 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %} Home page {% endblock %}
+
+{% block body %}
+
+<style>
+    .abou1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        gap: 30px;
+    }
+
+    .abou1 img {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        margin-top: 10px;
+    }
+
+    .abou1 .right {
+        width: 90%;
+        max-width: 600px;
+    }
+
+    .abou1 .right p {
+        line-height: 1.7;
+        margin-bottom: 15px;
+    }
+
+    .abou1 .btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    @media (min-width: 768px) {
+        .abou1 {
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            gap: 60px;
+        }
+
+        .abou1 img {
+            width: 300px;
+        }
+
+        .abou1 .btn {
+            width: 600px;
+        }
+    }
+</style>
+
+<div class="abou1">
+    <div class="left">
+        <img src="{% static 'img/hor3.jpg' %}" alt="That Night Book Cover">
+    </div>
+    <div class="right">
+        <h2>That Night</h2>
+        <p>
+            <strong>That Night</strong> by Nidhi Upadhyay is a gripping psychological thriller that explores the dark consequences of a prank gone horribly wrong. It follows four college friends—Natasha, Riya, Anjali, and Katherine—whose lives take a dark turn after the death of their hostel mate, Sania.
+        </p>
+        <p>
+            Two decades later, secrets start resurfacing when the friends receive anonymous threats hinting that someone knows what really happened <em>that night</em>. With fear gripping their lives, they are forced to come together again to confront the truth they tried so hard to bury.
+        </p>
+        <p style="font-size:25px; font-weight:bold;">Rs. 299</p>
+
+        <a href="{% url 'add_to_cart' 5 %}" class="btn btn-primary btn">Add To Cart</a><br>
+        <a href="{% url 'buy_now' %}?source=buy_now" class="btn btn-success btn">Buy Now</a>
+    </div>
+</div>
+
+{% endblock %}

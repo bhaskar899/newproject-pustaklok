@@ -1,0 +1,78 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %} Home page {% endblock %}
+
+{% block body %}
+
+<style>
+    .abou1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        gap: 30px;
+    }
+
+    .abou1 img {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        margin-top: 10px;
+    }
+
+    .abou1 .right {
+        width: 90%;
+        max-width: 600px;
+    }
+
+    .abou1 .right p {
+        line-height: 1.7;
+        margin-bottom: 15px;
+    }
+
+    .abou1 .btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    @media (min-width: 768px) {
+        .abou1 {
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            gap: 60px;
+        }
+
+        .abou1 img {
+            width: 300px;
+        }
+
+        .abou1 .btn {
+            width: 600px;
+        }
+    }
+</style>
+
+<div class="abou1">
+    <div class="left">
+        <img src="{% static 'img/o2.jpg' %}" alt="Rich Dad Poor Dad Cover">
+    </div>
+    <div class="right">
+        <h2>Rich Dad Poor Dad</h2>
+        <p>
+            <strong>"Rich Dad Poor Dad"</strong> by Robert Kiyosaki promotes financial literacy through the story of two father figures:
+            a "poor dad" who values traditional education and job security, and a "rich dad" who teaches about investing, building assets, and financial independence.
+        </p>
+        <p>
+            The core principle is understanding the difference between assets and liabilities—and focusing on acquiring assets that generate passive income.
+        </p>
+        <p style="font-size:25px; font-weight:bold;">Rs. 399</p>
+
+        <a href="{% url 'add_to_cart' 5 %}" class="btn btn-primary btn">Add To Cart</a><br>
+        <a href="{% url 'buy_now' %}?source=buy_now" class="btn btn-success btn">Buy Now</a>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %} Home page {% endblock %}
+
+{% block body %}
+
+<style>
+    .abou1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        gap: 30px;
+    }
+
+    .abou1 img {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        margin-top: 10px;
+    }
+
+    .abou1 .right {
+        width: 90%;
+        max-width: 600px;
+    }
+
+    .abou1 .right p {
+        line-height: 1.7;
+        margin-bottom: 15px;
+    }
+
+    .abou1 .btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    @media (min-width: 768px) {
+        .abou1 {
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            gap: 60px;
+        }
+
+        .abou1 img {
+            width: 300px;
+        }
+
+        .abou1 .btn {
+            width: 600px;
+        }
+    }
+</style>
+
+<div class="abou1">
+    <div class="left">
+        <img src="{% static 'img/hor8.jpg' %}" alt="Greatest Horror Stories Book Cover">
+    </div>
+    <div class="right">
+        <h2>Greatest Horror Stories</h2>
+        <p>
+            <strong>Greatest Horror Stories from Around the World</strong> is a chilling anthology featuring terrifying tales from legends like Arthur Conan Doyle, Edgar Allan Poe, H. P. Lovecraft, Guy de Maupassant, and more.
+        </p>
+        <p>
+            Blending psychological suspense and supernatural terror, this collection explores the darkest aspects of fear — making it essential for horror lovers and fans of timeless storytelling.
+        </p>
+        <p style="font-size:25px; font-weight:bold;">Rs. 1299</p>
+
+        <a href="{% url 'add_to_cart' 5 %}" class="btn btn-primary btn">Add To Cart</a><br>
+        <a href="{% url 'buy_now' %}?source=buy_now" class="btn btn-success btn">Buy Now</a>
+    </div>
+</div>
+
+{% endblock %}

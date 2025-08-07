@@ -1,0 +1,176 @@
+{% extends 'master.html' %}
+{% load static %}
+{% block title %}Home Page{% endblock %}
+
+{% block css %}
+{% endblock %}
+{% block body %}
+
+
+
+<style>
+  .carousel-img {
+  width: 90%;              /* Makes it medium size with some space on both sides */
+  height: 600px;           /* Medium fixed height */
+  object-fit: cover;       /* Keeps image proportional without stretching */
+  margin: 0 auto;          /* Center the image */
+  border-radius: 10px;     /* Optional: smooth corners */
+}
+</style>
+<div id="carouselExampleCaptions" class="carousel slide mt-5" data-bs-ride="carousel" data-bs-interval="3000">
+  <div class="carousel-indicators">
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+  </div>
+
+  <div class="carousel-inner text-center col-md-12 col-lg-12 col-xl-12">
+    <div class="carousel-item active">
+      <img src="{% static 'img/bookback2.jpg' %}" class="carousel-img" id="img1">
+      <div class="carousel-caption d-none d-md-block">
+        <h5 id="font">Discover Your Next Favorite Book</h5>
+        <p style="font-size:25px;padding-bottom:50px">Explore a vast collection of genres handpicked for every kind of reader.</p>
+      </div>
+    </div>
+
+    <div class="carousel-item">
+      <img src="{% static 'img/bookback5.jpg' %}" class="carousel-img" id="img2">
+      <div class="carousel-caption d-none d-md-block">
+        <h5 id="font">Support Local Authors</h5>
+        <p style="font-size:25px;padding-bottom:50px">Find inspiring books written by talented Indian authors and storytellers.</p>
+      </div>
+    </div>
+
+    <div class="carousel-item">
+      <img src="{% static 'img/bookback3.jpg' %}" class="carousel-img" id="img3">
+      <div class="carousel-caption d-none d-md-block">
+        <h5 id="font">Read. Learn. Grow.</h5>
+        <p style="font-size:25px;padding-bottom:120px">Whether it’s fiction, self-help, or academics — Pustklok has it all.</p>
+      </div>
+    </div>
+  </div>
+
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+</div>
+
+<div class="col-md-12 col-lg-12 col-xl-12">
+<section id="home" class="py-5">
+  <div class="container text-center">
+    <h1>Welcome to Pustklok</h1>
+    <p>Your gateway to endless stories...</p>
+  </div>
+</section>
+</div>
+<!-- ABOUT -->
+<section id="about" class="py-5" style="background: #f8f9fa;">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold text-success">About Us</h2>
+      <p class="text-muted">Discover the world of books through Pustklok</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="p-4 bg-white shadow rounded-4">
+          <p class="lead">
+            Welcome to <strong>Pustklok</strong>, your gateway to the world of books.
+          </p>
+          <p>
+            Inspired by India’s rich literary heritage, Pustklok is more than just a bookstore —
+            it’s a digital sanctuary where stories, knowledge, and imagination come together. Whether you're a passionate reader, a curious learner, or someone rediscovering the joy of reading — <strong>Pustklok</strong> is built for you.
+          </p>
+
+          <div class="mb-4">
+            <h5 class="fw-bold text-dark">Our Mission:</h5>
+            <ul class="list-unstyled">
+              <li>📖 To make books accessible across genres, languages, and regions.</li>
+              <li>🌏 To promote Indian literature while embracing global voices.</li>
+              <li>🔍 To provide a seamless, modern platform for exploring timeless wisdom and new ideas.</li>
+            </ul>
+          </div>
+
+          <p>
+            At Pustklok, we blend tradition with technology — preserving the essence of libraries while offering the convenience of an online store. From ancient texts to modern bestsellers, from regional classics to international fiction — this is your <strong>Lok</strong> (world) of <strong>Pustak</strong> (books).
+          </p>
+
+          <p class="fw-semibold text-center mt-4 mb-0 text-success">
+            Begin your next chapter with us. <br> <em>Read. Learn. Grow.</em>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- TESTIMONIALS -->
+<section class="py-5" id="testimonials">
+  <div class="container">
+    <h2 class="text-center text-success mb-4">💬 What Our Readers Say</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <blockquote class="blockquote">
+          <p>"Pustklok helped me find rare Indian literature I couldn’t get anywhere else!"</p>
+          <footer class="blockquote-footer">Ravi, Mumbai</footer>
+        </blockquote>
+      </div>
+      <div class="col-md-6">
+        <blockquote class="blockquote">
+          <p>"A clean, smooth book-buying experience. Loved the regional content!"</p>
+          <footer class="blockquote-footer">Ananya, Bangalore</footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- ANNOUNCEMENT -->
+<section class="py-3 bg-warning text-dark text-center">
+  <strong>📅 Coming Soon:</strong> Pustklok Online Book Festival — Sept 15 to Sept 25!
+</section>
+<!-- CONTACT -->
+<section id="contact" class="py-5" style="background-color: #f1f1f1;">
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="fw-bold text-success">Contact Us</h2>
+      <p class="text-muted">We’d love to hear from you!</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8">
+        <div class="p-4 p-md-5 shadow bg-white rounded-4 border border-success">
+          <form>
+            <div class="mb-3">
+              <label for="firstName" class="form-label fw-semibold">👤 Name</label>
+              <input type="text" class="form-control" id="firstName" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="phone" class="form-label fw-semibold">📱 Mobile Number</label>
+              <input type="tel" class="form-control" id="phone" placeholder="Enter your phone number" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label fw-semibold">📧 Email Address</label>
+              <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="message" class="form-label fw-semibold">💬 Your Message</label>
+              <textarea class="form-control" id="message" rows="4" placeholder="Type your message here..." required></textarea>
+            </div>
+
+            <div class="text-center">
+              <button type="submit" class="btn btn-success px-5 py-2 fw-bold shadow-sm">Send Message</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

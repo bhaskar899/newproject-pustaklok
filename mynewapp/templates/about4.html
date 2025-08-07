@@ -1,0 +1,74 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %} Home page {% endblock %}
+
+{% block body %}
+
+<style>
+    .abou1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        gap: 30px;
+    }
+
+    .abou1 img {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        margin-top: 10px;
+    }
+
+    .abou1 .right {
+        width: 90%;
+        max-width: 600px;
+    }
+
+    .abou1 .right p {
+        line-height: 1.6;
+    }
+
+    .abou1 .btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    @media (min-width: 768px) {
+        .abou1 {
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            gap: 60px;
+        }
+
+        .abou1 img {
+            width: 300px;
+        }
+
+        .abou1 .btn {
+            width: 600px;
+        }
+    }
+</style>
+
+<div class="abou1">
+    <div class="left">
+        <img src="{% static 'img/book4.jpg' %}" alt="Book Image">
+    </div>
+    <div class="right">
+        <h2>Lightning Down</h2><br>
+        <p>
+            "On August 13, 1944, Joe Moser set off on his forty-fourth combat mission over occupied France. Soon, he would join almost 170 other Allied airmen as prisoners in Buchenwald, one of the most notorious and deadly of Nazi concentration camps. Tom Clavin's *Lightning Down* tells this largely untold and riveting true story.<br><br>
+            Moser was just twenty-two years old, a farm boy from Washington State who fell in love with flying. During the War he realized his dream of piloting a P-38 Lightning, one of the most effective weapons the Army Air Corps had against the powerful German Luftwaffe. But on that hot August morning he had to bail out of his damaged, burning plane. Captured immediately, Moser’s journey into hell began.
+        </p>
+        <p style="font-size:25px;">Rs. 999</p>
+
+        <a href="{% url 'add_to_cart' 5 %}" class="btn btn-primary btn">Add To Cart</a><br>
+        <a href="{% url 'buy_now' %}?source=buy_now" class="btn btn-success btn">Buy Now</a>
+    </div>
+</div>
+
+{% endblock %}

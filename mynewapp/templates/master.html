@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body>
+
+<!-- Header -->
+<header class="bg-success text-white py-4 shadow-sm" data-aos="fade-down">
+  <div class="container text-center">
+    <h1 class="display-5 fw-bold m-0" style="letter-spacing: 1px;">
+      📚 PustakLok
+    </h1>
+    <p class="lead mb-0" style="font-style: italic;">
+      Your Gateway to the World of Books
+    </p>
+  </div>
+</header>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Books</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" href="/#home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/#about">About Us</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/#contact">Contact</a>
+        </li>
+
+        {% if request.session.u_name %}
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'logout_page' %}">Logout</a>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'register' %}">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="{% url 'login' %}">Login</a>
+          </li>
+        {% endif %}
+
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'admin_login_page' %}">Admin</a>
+        </li>
+      </ul>
+
+      <form class="d-flex align-items-center" role="search" onsubmit="scrollToBooks(); return false;">
+        <input class="form-control me-2" id="searchInput" type="search" placeholder="Search...">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+
+        &nbsp;&nbsp;
+
+        {% if request.session.u_name %}
+          <a href="{% url 'profile' %}" class="text-white me-3" style="font-size: 22px;">
+            <i class="fas fa-user"></i>
+          </a>
+        {% endif %}
+
+        <a href="#" class="text-white" style="font-size: 22px;">
+          <i class="fas fa-shopping-cart"></i>
+        </a>
+      </form>
+    </div>
+  </div>
+</nav>
+<!-- Body Content -->
+{% block body %}
+{% endblock %}
+
+<!-- Footer -->
+<div class="container-fluid text-white py-3" style="background-color: #333;">
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <p class="mb-2">
+        © 2025 Pustklok. All rights reserved. <br>
+        Built with a passion for books. <br>
+        Contact: pustklok@gmail.com | +91-8928958677
+      </p>
+
+      <div class="mt-2">
+        <a href="https://wa.me/918928958677" target="_blank" class="text-white me-3">
+          <i class="fab fa-whatsapp fa-lg"></i>
+        </a>
+        <a href="https://twitter.com" target="_blank" class="text-white me-3">
+          <i class="fab fa-twitter fa-lg"></i>
+        </a>
+        <a href="https://instagram.com" target="_blank" class="text-white me-3">
+          <i class="fab fa-instagram fa-lg"></i>
+        </a>
+        <a href="https://facebook.com" target="_blank" class="text-white me-3">
+          <i class="fab fa-facebook fa-lg"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function scrollToBooks() {
+  const input = document.getElementById("searchInput").value.toLowerCase();
+  const id = input.replace(/\s+/g, '-') + "-section";
+  const section = document.getElementById(id);
+  if (section) {
+    section.scrollIntoView({ behavior: "smooth" });
+  } else {
+    alert("Section not found: " + input);
+  }
+}
+</script>
+
+</body>
+</html>

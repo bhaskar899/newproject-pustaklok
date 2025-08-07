@@ -1,0 +1,74 @@
+{% extends 'master.html' %}
+{% load static %}
+
+{% block title %} Home page {% endblock %}
+
+{% block body %}
+
+<style>
+    .abou1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        gap: 30px;
+    }
+
+    .abou1 img {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        margin-top: 10px;
+    }
+
+    .abou1 .right {
+        width: 90%;
+        max-width: 600px;
+    }
+
+    .abou1 .right p {
+        line-height: 1.6;
+    }
+
+    .abou1 .btn {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    @media (min-width: 768px) {
+        .abou1 {
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            gap: 60px;
+        }
+
+        .abou1 img {
+            width: 300px;
+        }
+
+        .abou1 .btn {
+            width: 600px;
+        }
+    }
+</style>
+
+<div class="abou1">
+    <div class="left">
+        <img src="{% static 'img/book7.jpg' %}" alt="Indian Struggle For Independence">
+    </div>
+    <div class="right">
+        <h2>Indian Struggle For Independence</h2>
+        <p>
+            <i>"India's Struggle for Independence"</i>, co-authored by Bipan Chandra, Mridula Mukherjee, and Aditya Mukherjee, offers a comprehensive historical analysis of India's fight for freedom from British rule.<br><br>
+            The book’s theoretical framework centers on the idea that the Indian national movement was a complex, multi-faceted process involving various social classes, ideologies, and political strategies. It highlights the importance of both constitutional and non-constitutional methods, emphasizing the role of popular participation and the gradual development of counter-hegemony.
+        </p>
+        <p style="font-size:25px;">Rs. 399</p>
+
+        <a href="{% url 'add_to_cart' 5 %}" class="btn btn-primary btn">Add To Cart</a><br>
+        <a href="{% url 'buy_now' %}?source=buy_now" class="btn btn-success btn">Buy Now</a>
+    </div>
+</div>
+
+{% endblock %}
