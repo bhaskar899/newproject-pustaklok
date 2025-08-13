@@ -1,0 +1,28 @@
+{% extends 'master.html' %}
+{% block title %}Edit Profile{% endblock %}
+{% block body %}
+<div class="container mt-5 mb-5">
+    <div class="card shadow p-4">
+        <h2 class="text-center mb-4">✏ Edit Profile</h2>
+        <form method="POST" action="{% url 'update' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label>Name</label>
+                <input type="text" class="form-control" value="{{ data.uname }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email" name="email" class="form-control" value="{{ data.email }}">
+            </div>
+            <div class="mb-3">
+                <label>Contact</label>
+                <input type="text" name="contact" class="form-control" value="{{ data.contact }}">
+            </div>
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-success">Update</button>
+                <a href="{% url 'profile' %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

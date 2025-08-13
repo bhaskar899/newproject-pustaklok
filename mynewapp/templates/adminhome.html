@@ -1,38 +1,49 @@
 {% extends 'master.html' %}
-
 {% load static %}
 
-{% block title %}  admin home page  {% endblock %}
+{% block title %}Admin Home{% endblock %}
 
 {% block body %}
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-12 col-lg-12 col-xl-12">
-            <h2>Welcome Admin:-{{name}}</h2>
-            <h3 class="text-danger">{{msg}}</h3>
-            <h3 class="text-danger">{{status}}</h3>
+<h2 style="margin-left:500px;margin-top:50px">Welcome Admin: {{name}}</h2>
 
-        </div>
-    </div>
-</div>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
-        <div class="col-md-6 col-lg-6 col-xl-6">
-            <a href="">
-           <img src="{% static 'img/mountain.jpg' %}" style="width:50%">
-                <p>manage all books</p>
-            </a>
-        </div>
-         <div class="col-md-6 col-lg-6 col-xl-6">
-             <a href="{% url 'admin_book' %}">
-           <img src="{% static 'img/moon.jpg' %}" style="width:50%">
-                 <p> show read book</p>
-             </a>
-
+        <div class="col-md-12">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Book Name</th>
+                        <th>Quantity</th>
+                        <th>Date</th>
+                        <th>Time</th>
+                        <th>Contact</th>
+                        <th>Address</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for x in data %}
+                    <tr>
+                        <td>{{x.book_name}}</td>
+                        <td>{{x.quantity}}</td>
+                        <td>{{x.date}}</td>
+                        <td>{{x.time}}</td>
+                        <td>{{x.mobile}}</td>
+                        <td>{{x.address}}</td>
+                        <td>
+                            <a class="btn btn-danger" href="{% url 'delete_order' %}?id={{x.bid}}" onclick="return confirm('Are you sure?')">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center">No orders found</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
 {% endblock %}
-

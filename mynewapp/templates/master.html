@@ -45,22 +45,28 @@
           <a class="nav-link active" href="/#contact">Contact</a>
         </li>
 
-        {% if request.session.u_name %}
-          <li class="nav-item">
-            <a class="nav-link active" href="{% url 'logout_page' %}">Logout</a>
-          </li>
-        {% else %}
           <li class="nav-item">
             <a class="nav-link active" href="{% url 'register' %}">Register</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active" href="{% url 'login' %}">Login</a>
           </li>
-        {% endif %}
+
+        {% if 'a_name' not in request.session %}
 
         <li class="nav-item">
-          <a class="nav-link" href="{% url 'admin_login_page' %}">Admin</a>
+          <a class="nav-link" href="{% url 'admin_login_page' %}">Admin Login</a>
         </li>
+
+        {% else %}
+
+         <li class="nav-item">
+          <a class="nav-link btn btn-danger" href="{% url 'admin_logout' %}"> Admin Logout</a>
+        </li>
+
+
+
+        {% endif %}
       </ul>
 
       <form class="d-flex align-items-center" role="search" onsubmit="scrollToBooks(); return false;">
@@ -93,7 +99,7 @@
       <p class="mb-2">
         © 2025 Pustklok. All rights reserved. <br>
         Built with a passion for books. <br>
-        Contact: pustklok@gmail.com | +91-8928958677
+        Contact: bhaskar-pustklok@gmail.com | +91-8928958677
       </p>
 
       <div class="mt-2">

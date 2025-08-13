@@ -1,9 +1,22 @@
+import random
 from datetime import datetime
+from multiprocessing.synchronize import Event
+
+import smtplib
+import ssl
+from email.mime.text import MIMEText
+
+from django.conf import settings
 from django.contrib.auth import authenticate,logout,login
+from django.core.mail import send_mail
+from django.db.models.fields import return_None
+
 from .models import User, book, Admin
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib import messages
 
+from django.contrib import messages
+from django.shortcuts import render, redirect
 
 # Create your views here.
 
@@ -165,6 +178,48 @@ def logout_page(request):
     return redirect("login")
 
 
+# ... (rest of your imports and views)
+
+def edit_page(request):
+    # Check if 'u_name' exists in the session
+    uname = request.session.get("u_name")
+
+    if not uname:
+        return redirect("login")
+
+    # Get the user object using the username from the session
+    try:
+        data = User.objects.get(uname=uname)
+    except User.DoesNotExist:
+        # Handle the case where the user is not found, although this should be rare
+        messages.error(request, "User not found.")
+        return redirect("login")
+
+    locate = {"data": data}
+    return render(request, "edit_page.html", locate)
+
+
+def update(request):
+    if request.method == "POST":
+        uname = request.session.get("u_name")  # Get username from the session, not the form
+        if not uname:
+            return redirect("login")
+
+        try:
+            user_to_update = User.objects.get(uname=uname)
+            user_to_update.email = request.POST.get("email")
+            user_to_update.contact = request.POST.get("contact")
+            user_to_update.save()
+            messages.success(request, "Your profile has been updated!")
+            return redirect("profile")  # Redirect to the profile page to see changes
+
+        except User.DoesNotExist:
+            messages.error(request, "User not found.")
+            return redirect("login")
+
+    return redirect("edit_page")
+
+
 def user_login(request):
     if request.method == "POST":
         uname = request.POST.get("uname")
@@ -267,11 +322,27 @@ def admin_check(request):
 def adminhome(request):
     if "a_name" in request.session:
         aname = request.session.get("a_name")
-        locate = {"name": aname}
+
+        # Fetch all orders from the book table
+        orders = book.objects.all()
+
+        locate = {
+            "name": aname,
+            "data": orders
+        }
         return render(request, "adminhome.html", locate)
     else:
         locate = {"status": "You need to login first"}
         return render(request, "adminhome.html", locate)
+def admin_logout(request):
+    if 'a_name' in request.session:
+        del request.session['a_name']
+        return render(request,"admin_login.html")
+
+
+    else:
+        locate={'status':'you need to login first'}
+        return render(request,"admin_login.html",locate)
 
 def admin_book(request):
     if 'a_name' in request.session:
@@ -322,7 +393,6 @@ def buy_now(request):
         mobile = request.POST.get("mobile")
         total_price = int(request.POST.get("total_price"))
 
-        # Save order
         order = book(
             uid=user.uid,
             book_name=book_name,
@@ -341,10 +411,14 @@ def buy_now(request):
             "user_email": user.email,
             "date": datetime.today().date().isoformat(),
         }
-        return render(request, "read_book.html", locate)
+        return render(request, "thankyou.html", locate)
 
     else:
         today = datetime.today().date().isoformat()
+        # Query se book name aur price le rahe hain
+        book_name = request.GET.get("book_name", "")
+        price = request.GET.get("price", "")
+
         locate = {
             "user_name": user.uname,
             "user_contact": user.contact,
@@ -352,5 +426,102 @@ def buy_now(request):
             "msg": "",
             "status": "",
             "date": today,
+            "book_name": book_name,
+            "price": price
         }
         return render(request, "read_book.html", locate)
+
+def delete_order(request):
+    if 'a_name' in request.session:
+        id=request.GET.get("id")
+        book.objects.filter(bid=id).delete()
+        record = book.objects.all()
+        locate = {"data": record, "msg": "Employee Deleted"}
+        return render(request, "admin_book.html", locate)
+
+
+    else:
+        locate={"status":"you need to login"}
+        return render(request,"admin_login.html",locate)
+
+def mail_send(request):
+        return render(request,"email_form.html")
+
+
+def email_check(request):
+    if request.method == "POST":
+        email = request.POST.get("email")
+        otp = random.randint(1000, 9999)
+
+        # Store in session for later
+        request.session["otp"] = str(otp)
+        request.session["reset_email"] = email
+
+        subject = "Forget Password"
+        body = f"Your OTP is: {otp}"
+        msg = MIMEText(body)
+        msg["Subject"] = subject
+        msg["From"] = settings.EMAIL_HOST_USER
+        msg["To"] = email
+
+        context = ssl._create_unverified_context()
+
+        try:
+            with smtplib.SMTP(settings.EMAIL_HOST, settings.EMAIL_PORT) as server:
+                server.starttls(context=context)
+                server.login(settings.EMAIL_HOST_USER, settings.EMAIL_HOST_PASSWORD)
+                server.send_message(msg)
+
+            # After sending mail → show OTP entry page
+            return render(request, "enter_otp.html", {"msg": "Email sent successfully!"})
+
+        except Exception as e:
+            return render(request, "enter_otp.html", {"msg": f"Error: {e}"})
+
+    return render(request, "enter_email.html")
+
+def otp_check(request):
+    if request.method == "POST":
+        entered_otp = request.POST.get("otp")  # from form input
+        saved_otp = request.session.get("otp")  # from session
+
+        if str(entered_otp) == str(saved_otp):
+            return render(request, "update_pass.html")
+        else:
+            return render(request, "enter_otp.html", {"msg": "Wrong OTP"})
+    return render(request, "enter_otp.html")
+
+
+
+def update_pass(request):
+    if request.method == "POST":
+        new_pass = request.POST.get("new_password")
+        confirm_pass = request.POST.get("confirm_password")
+        email = request.session.get("reset_email")  # get email stored during OTP step
+
+        if new_pass != confirm_pass:
+            return render(request, "update_pass.html", {"msg": "Passwords do not match."})
+
+        if email:
+            try:
+                user = User.objects.get(email=email)
+                user.password = new_pass  # if storing raw password (bad practice) or hash it properly
+                user.save()
+
+                # Clear reset session data
+                request.session.pop("reset_email", None)
+                request.session.pop("otp", None)
+
+                messages.success(request, "Password updated successfully. Please login.")
+                return redirect("login")  # your login page name
+
+            except User.DoesNotExist:
+                return render(request, "update_pass.html", {"msg": "User not found."})
+        else:
+            return render(request, "update_pass.html", {"msg": "Session expired. Restart the process."})
+
+    return render(request, "update_pass.html")
+
+
+def thankyou(request):
+    return render(request,"thankyou.html")

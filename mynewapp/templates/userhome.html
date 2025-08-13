@@ -5,32 +5,35 @@
 
 {% block body %}
 
+    <a href="/#home" class="btn btn-secondary" style="margin-left:30px;margin-top:30px">Back</a>
+
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12 col-lg-12 col-xl-12">
-            <h2>Welcome :- {{name}}</h2>
+<!--            <h2>Welcome :- {{name}}</h2>-->
             <h3 class="text-danger">{{msg}}</h3>
             <h3 class="text-danger">{{status}}</h3>
         </div>
     </div>
 </div>
 
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-6 col-lg-6 col-xl-6">
-            <a href="">
-                <img src="{% static 'img/mountain.jpg' %}" style="width:50%">
-                <p>show all books</p>
-            </a>
-        </div>
-        <div class="col-md-6 col-lg-6 col-xl-6">
-            <a href="{% url 'buy_now' %}">
-                <img src="{% static 'img/moon.jpg' %}" style="width:50%">
-                <p>read book</p>
-            </a>
-        </div>
-    </div>
-</div>
+<!--<div class="container-fluid">-->
+<!--    <div class="row">-->
+<!--        <div class="col-md-6 col-lg-6 col-xl-6">-->
+<!--            <a href="">-->
+<!--                <img src="{% static 'img/mountain.jpg' %}" style="width:50%">-->
+<!--                <p>show all books</p>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--        <div class="col-md-6 col-lg-6 col-xl-6">-->
+<!--            <a href="{% url 'buy_now' %}">-->
+<!--                <img src="{% static 'img/moon.jpg' %}" style="width:50%">-->
+<!--                <p>read book</p>-->
+<!--            </a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
 <!--cart info-->
 {% if messages %}

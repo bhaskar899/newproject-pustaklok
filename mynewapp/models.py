@@ -1,6 +1,6 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-# Create your models here.
 
 class User(models.Model):
     uid=models.AutoField(primary_key=True)
@@ -12,7 +12,6 @@ class User(models.Model):
 
     def __str__(self):
         return self.uname
-
 
 class book(models.Model):
     bid=models.AutoField(primary_key=True)

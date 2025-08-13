@@ -1,0 +1,18 @@
+{% extends 'master.html' %}
+{% block body %}
+<div class="container">
+    <div class="col-md-6 mx-auto">
+        <form method="POST" action="{% url 'otp_check' %}">
+            {% csrf_token %}
+            <input type="hidden" value={{otp}} name="emailid">
+            <div class="form-group">
+                <label>Enter OTP:</label>
+                <input type="number" name="otp" class="form-control" required>
+            </div>
+            <br>
+            {{ msg }}
+            <input type="submit" class="btn btn-primary" value="Verify OTP">
+        </form>
+    </div>
+</div>
+{% endblock %}

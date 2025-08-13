@@ -10,10 +10,14 @@ urlpatterns = [
     path("about/",views.about,name="about"),
     path("register/",views.register,name="register"),
     path("logout_page/",views.logout_page,name="logout_page"),
+    path("edit_page/",views.edit_page,name="edit_page"),
+    path("update/",views.update,name="update"),
     path("user_data/", views.user_data, name="user_data"),
     path("login/",views.login,name="login"),
     path("user_login/", views.user_login, name="user_login"),
+
     # path("read_book/", views.read_book, name="read_book"),
+
     path("book_book/", views.book_book, name="book_book"),
     path("admin_login_page/", views.admin_login_page, name="admin_login_page"),
     path("admin_check/",views.admin_check,name="admin_check"),
@@ -21,6 +25,8 @@ urlpatterns = [
     path("contact/", views.contact, name="contact"),
     path("profile/", views.profile_view, name="profile"),
     path("userhome/",views.userhome,name="userhome"),
+    path("admin_logout/",views.admin_logout,name="admin_logout"),
+    path("delete_order/",views.delete_order,name="delete_order"),
 
     # order book
 
@@ -70,5 +76,14 @@ urlpatterns = [
 
 #     Cart add message
     path("add_to_cart/<int:book_id>/",views.add_to_cart,name="add_to_cart"),
+
+#     mail sending
+    path("mail_send/", views.mail_send, name="mail_send"),
+    path("email_check/", views.email_check, name="email_check"),
+    path("otp_check/", views.otp_check, name="otp_check"),
+    path("update_pass/", views.update_pass, name="update_pass"),
+
+#     thank you
+    path("thankyou/",views.thankyou,name="thankyou.html")
 
 ]

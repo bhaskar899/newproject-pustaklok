@@ -1,0 +1,21 @@
+{% extends 'master.html' %}
+{% block body %}
+<div class="container">
+    <div class="col-md-6 mx-auto">
+        <form method="POST" action="{% url 'update_pass' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label>New Password:</label>
+                <input type="password" name="new_password" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Confirm Password:</label>
+                <input type="password" name="confirm_password" class="form-control" required>
+            </div>
+            <br>
+            {{ msg }}
+            <input type="submit" class="btn btn-success" value="Update Password">
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -53,6 +53,7 @@
         }
     }
 </style>
+    <a href="/login/" class="btn btn-secondary" style="margin-left:30px;margin-top:30px">Back</a>
 
 <div class="abou1">
     <div class="left">
@@ -67,7 +68,7 @@
         <p style="font-size:25px;">Rs. 199</p>
 
         <a href="{% url 'add_to_cart' 5 %}" class="btn btn-primary btn">Add To Cart</a><br>
-        <a href="{% url 'buy_now' %}?source=buy_now" class="btn btn-success btn">Buy Now</a>
+        <a href="{% url 'buy_now' %}?book_name=The %20World%20 I%20 See&price=199" class="btn btn-success btn">Buy Now</a>
     </div>
 </div>
 
