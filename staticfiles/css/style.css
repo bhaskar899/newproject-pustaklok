@@ -1,0 +1,124 @@
+*{
+padding:0px;
+margin:0px;
+}
+
+#foot
+{
+background-color:#333;
+color:#ffffff;
+text-align:center;
+font-size:23px;
+}
+#img
+{
+width:100%;
+height:450px;
+max-width:100%;
+display:block;
+}
+
+/* Form Container */
+.container {
+    margin-top: 50px;
+}
+
+/* Form Card Styling */
+.container form {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 25px rgba(0,128,0,0.4);
+    transition: transform 0.5s ease;
+}
+
+/* On hover, slightly lift */
+.container form:hover {
+    transform: translateY(-5px);
+}
+
+/* Form Labels */
+.container label {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Inputs and Radio Buttons */
+.container input[type="text"],
+.container input[type="number"],
+.container input[type="email"],
+.container input[type="password"],
+.container input[type="radio"] {
+    margin-bottom: 15px;
+}
+
+/* Submit Button */
+.container input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    font-weight: bold;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+}
+
+.container input[type="submit"]:hover {
+    background-color: #218838;
+    color: #fff;
+}
+
+#font
+{
+font-size:35px;
+}
+.card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-body {
+    flex-grow: 1;
+}
+
+   .abou1 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        gap: 30px; /* Image aur text ke beech gap */
+    }
+
+    .abou1 img {
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+    }
+
+    .abou1 .right {
+        width: 90%;
+        max-width: 600px;
+    }
+
+    .abou1 .right .btn {
+        width: 100%;
+    }
+
+    @media (min-width: 768px) {
+        .abou1 {
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px;
+            gap: 60px; /* Laptop/tablet me aur zyada space */
+        }
+
+        .abou1 img {
+            width: 300px;
+        }
+
+        .abou1 .right .btn {
+            width: 600px;
+        }
+    }
