@@ -2,7 +2,7 @@
 {% block body %}
 <div class="container">
     <div class="col-md-6 mx-auto">
-        <form method="POST" action="{% url 'update_pass' %}">
+        <form method="POST" action="{% url 'update_pass' user.id %}">
             {% csrf_token %}
             <div class="form-group">
                 <label>New Password:</label>

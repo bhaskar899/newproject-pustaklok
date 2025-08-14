@@ -81,7 +81,7 @@ urlpatterns = [
     path("mail_send/", views.mail_send, name="mail_send"),
     path("email_check/", views.email_check, name="email_check"),
     path("otp_check/", views.otp_check, name="otp_check"),
-    path("update_pass/", views.update_pass, name="update_pass"),
+    path("update_pass/<int:id>/", views.update_pass, name="update_pass"),
 
 #     thank you
     path("thankyou/",views.thankyou,name="thankyou.html")
