@@ -495,40 +495,38 @@ def otp_check(request):
 
 from django.contrib.auth.hashers import make_password
 
-from django.contrib import messages
-from django.shortcuts import render, redirect
-from .models import User
+from django.db import IntegrityError
 
 def update_pass(request):
     if request.method == "POST":
-        new_pass = request.POST.get("new_password")
-        confirm_pass = request.POST.get("confirm_password")
-        email = request.session.get("reset_email")
+        name = request.POST.get("uname")
+        email = request.POST.get("email")
+        gender = request.POST.get("gender")
+        password = request.POST.get("password")
+        contact = request.POST.get("contact")
 
-        # Password match check
-        if new_pass != confirm_pass:
-            return render(request, "update_pass.html", {"msg": "Passwords do not match."})
+        # Check if email already exists
+        if User.objects.filter(email=email).exists():
+            locate = {"msg": "Email already registered! Please use a different email."}
+            return render(request, "register.html", locate)
 
-        if not email:
-            return render(request, "update_pass.html", {"msg": "Session expired. Restart the process."})
+        try:
+            record = User(
+                uname=name,
+                email=email,
+                gender=gender,
+                password=password,
+                contact=contact
+            )
+            record.save()
+            locate = {"msg": "User Created Successfully"}
+            return render(request, "register.html", locate)
 
-        # Get user by email
-        user = User.objects.filter(email=email).first()
-        if not user:
-            return render(request, "update_pass.html", {"msg": "User not found."})
+        except IntegrityError:
+            locate = {"msg": "Something went wrong! Please try again."}
+            return render(request, "register.html", locate)
 
-        # Update password (hashed)
-        user.set_password(new_pass)
-        user.save()
-
-        # Clear OTP & email from session
-        request.session.pop("reset_email", None)
-        request.session.pop("otp", None)
-
-        messages.success(request, "Password updated successfully. Please login.")
-        return redirect("login")
-
-    return render(request, "update_pass.html")
+    return redirect("register")
 
 def thankyou(request):
     return render(request,"thankyou.html")

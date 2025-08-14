@@ -5,7 +5,7 @@ from django.db import models
 class User(models.Model):
     uid=models.AutoField(primary_key=True)
     uname=models.CharField(max_length=50)
-    email=models.CharField(max_length=50)
+    email=models.CharField(max_length=50,unique=True)
     gender=models.CharField(max_length=10)
     password=models.CharField(max_length=50)
     contact=models.IntegerField()
