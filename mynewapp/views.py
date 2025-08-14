@@ -495,30 +495,38 @@ def otp_check(request):
 
 from django.contrib.auth.hashers import make_password
 
+from django.contrib import messages
+from django.shortcuts import render, redirect
+from .models import User
+
 def update_pass(request):
     if request.method == "POST":
         new_pass = request.POST.get("new_password")
         confirm_pass = request.POST.get("confirm_password")
         email = request.session.get("reset_email")
 
+        # Password match check
         if new_pass != confirm_pass:
             return render(request, "update_pass.html", {"msg": "Passwords do not match."})
 
-        if email:
-            user = User.objects.filter(email=email).first()
-            if user:
-                user.password = make_password(new_pass)
-                user.save()
-
-                request.session.pop("reset_email", None)
-                request.session.pop("otp", None)
-
-                messages.success(request, "Password updated successfully. Please login.")
-                return redirect("login")
-            else:
-                return render(request, "update_pass.html", {"msg": "User not found."})
-        else:
+        if not email:
             return render(request, "update_pass.html", {"msg": "Session expired. Restart the process."})
+
+        # Get user by email
+        user = User.objects.filter(email=email).first()
+        if not user:
+            return render(request, "update_pass.html", {"msg": "User not found."})
+
+        # Update password (hashed)
+        user.set_password(new_pass)
+        user.save()
+
+        # Clear OTP & email from session
+        request.session.pop("reset_email", None)
+        request.session.pop("otp", None)
+
+        messages.success(request, "Password updated successfully. Please login.")
+        return redirect("login")
 
     return render(request, "update_pass.html")
 
