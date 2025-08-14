@@ -497,36 +497,26 @@ from django.contrib.auth.hashers import make_password
 
 from django.db import IntegrityError
 
-def update_pass(request):
+def update_pass(request, id):
+    user = User.objects.get(id=id)
+
     if request.method == "POST":
-        name = request.POST.get("uname")
-        email = request.POST.get("email")
-        gender = request.POST.get("gender")
-        password = request.POST.get("password")
-        contact = request.POST.get("contact")
+        new_email = request.POST.get("email")
 
-        # Check if email already exists
-        if User.objects.filter(email=email).exists():
-            locate = {"msg": "Email already registered! Please use a different email."}
-            return render(request, "register.html", locate)
+        # Email duplicate check (allow same email if it belongs to same user)
+        if User.objects.filter(email=new_email).exclude(id=user.id).exists():
+            return render(request, "update.html", {"msg": "Email already exists!"})
 
-        try:
-            record = User(
-                uname=name,
-                email=email,
-                gender=gender,
-                password=password,
-                contact=contact
-            )
-            record.save()
-            locate = {"msg": "User Created Successfully"}
-            return render(request, "register.html", locate)
+        user.uname = request.POST.get("uname")
+        user.email = new_email
+        user.gender = request.POST.get("gender")
+        user.password = request.POST.get("password")
+        user.contact = request.POST.get("contact")
+        user.save()
 
-        except IntegrityError:
-            locate = {"msg": "Something went wrong! Please try again."}
-            return render(request, "register.html", locate)
+        return render(request, "update.html", {"msg": "User updated successfully"})
 
-    return redirect("register")
+    return render(request, "update.html", {"user": user})
 
 def thankyou(request):
     return render(request,"thankyou.html")
