@@ -25,13 +25,13 @@
                 <tbody>
                     {% for x in data %}
                     <tr>
-                        <td>{{x.book_name}}</td>
-                        <td>{{x.quantity}}</td>
-                        <td>{{x.date}}</td>
-                        <td>{{x.time}}</td>
-                        <td>{{x.mobile}}</td>
-                        <td>{{x.address}}</td>
-                        <td>
+                        <td data-label="Book Name">{{x.book_name}}</td>
+                        <td data-label="Quantity">{{x.quantity}}</td>
+                        <td data-label="Date">{{x.date}}</td>
+                        <td data-label="Time">{{x.time}}</td>
+                        <td data-label="Contact">{{x.mobile}}</td>
+                        <td data-label="Address">{{x.address}}</td>
+                        <td data-label="Action">
                             <a class="btn btn-danger" href="{% url 'delete_order' %}?id={{x.bid}}" onclick="return confirm('Are you sure?')">Delete</a>
                         </td>
                     </tr>
