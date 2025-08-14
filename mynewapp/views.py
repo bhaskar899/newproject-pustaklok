@@ -497,7 +497,7 @@ def update_pass(request):
     if request.method == "POST":
         new_pass = request.POST.get("new_password")
         confirm_pass = request.POST.get("confirm_password")
-        email = request.session.get("reset_email")  # get email stored during OTP step
+        email = request.session.get("reset_email")
 
         if new_pass != confirm_pass:
             return render(request, "update_pass.html", {"msg": "Passwords do not match."})
@@ -505,7 +505,10 @@ def update_pass(request):
         if email:
             try:
                 user = User.objects.get(email=email)
-                user.password = new_pass  # if storing raw password (bad practice) or hash it properly
+
+                # ✅ Proper way to set password
+                from django.contrib.auth.hashers import make_password
+                user.password = make_password(new_pass)
                 user.save()
 
                 # Clear reset session data
@@ -513,7 +516,7 @@ def update_pass(request):
                 request.session.pop("otp", None)
 
                 messages.success(request, "Password updated successfully. Please login.")
-                return redirect("login")  # your login page name
+                return redirect("login")
 
             except User.DoesNotExist:
                 return render(request, "update_pass.html", {"msg": "User not found."})
@@ -521,7 +524,6 @@ def update_pass(request):
             return render(request, "update_pass.html", {"msg": "Session expired. Restart the process."})
 
     return render(request, "update_pass.html")
-
 
 def thankyou(request):
     return render(request,"thankyou.html")
