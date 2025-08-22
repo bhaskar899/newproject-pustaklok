@@ -501,27 +501,32 @@ from django.contrib.auth.hashers import make_password
 
 from django.db import IntegrityError
 
+from django.contrib import messages
+from .models import User  # Make sure to import your User model
+
 def update_pass(request, id):
-    user = User.objects.get(id=id)
+    try:
+        user = User.objects.get(uid=id)
+    except User.DoesNotExist:
+        messages.error(request, "User not found.")
+        return redirect("some_error_page")
 
     if request.method == "POST":
-        new_email = request.POST.get("email")
+        new_password = request.POST.get("new_password")
+        confirm_password = request.POST.get("confirm_password")
 
-        # Email duplicate check (allow same email if it belongs to same user)
-        if User.objects.filter(email=new_email).exclude(id=user.id).exists():
-            return render(request, "update.html", {"msg": "Email already exists!"})
+        if new_password and confirm_password and new_password == confirm_password:
+            user.password = new_password  # Update the password field
+            user.save()
+            messages.success(request, "Password updated successfully!")
+            return redirect("login")  # Redirect to the login page after a successful update
+        else:
+            messages.error(request, "Passwords do not match or are empty.")
+            # Redirect back to the same page to show the error
+            return render(request, "update_pass.html", {"user": user, "msg": "Passwords do not match."})
 
-        user.uname = request.POST.get("uname")
-        user.email = new_email
-        user.gender = request.POST.get("gender")
-        user.password = request.POST.get("password")
-        user.contact = request.POST.get("contact")
-        user.save()
-
-        return render(request, "update.html", {"msg": "User updated successfully"})
-
-    return render(request, "update.html", {"user": user})
-
+    # For a GET request, just render the page
+    return render(request, "update_pass.html", {"user": user})
 # ---------------------------
 # Dummy Payment Views
 # ---------------------------
