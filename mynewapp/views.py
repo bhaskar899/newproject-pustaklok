@@ -378,6 +378,8 @@ def add_to_cart(request,book_id):
 
 # order book
 
+from datetime import datetime
+
 def buy_now(request):
     if "u_name" not in request.session:
         return render(request, "login.html", {"status": "You need to login first"})
@@ -386,38 +388,39 @@ def buy_now(request):
 
     if request.method == 'POST':
         book_name = request.POST.get("book_name")
-        quantity = int(request.POST.get("quantity"))
+        quantity = int(request.POST.get("quantity", 1))
         address = request.POST.get("address")
-        date = request.POST.get("date")
-        time = request.POST.get("time")
         mobile = request.POST.get("mobile")
-        total_price = int(request.POST.get("total_price"))
+        total_price = int(request.POST.get("total_price", 0))
 
         order = book(
             uid=user.uid,
             book_name=book_name,
             quantity=quantity,
             address=address,
-            date=date,
-            time=time,
+            date=datetime.today().date(),
+            time=datetime.now().time(),
             mobile=mobile,
             total_price=total_price,
         )
         order.save()
+
         locate = {
             "status": "Order placed successfully!",
             "user_name": user.uname,
             "user_contact": user.contact,
             "user_email": user.email,
             "date": datetime.today().date().isoformat(),
+            "book_name": book_name,
+            "total_price": total_price,
         }
-        return render(request, "thankyou.html", locate)
+        return render(request, "payment.html", locate)
 
     else:
         today = datetime.today().date().isoformat()
-        # Query se book name aur price le rahe hain
         book_name = request.GET.get("book_name", "")
         price = request.GET.get("price", "")
+        total_price = int(price) * int(request.GET.get("quantity", 1))
 
         locate = {
             "user_name": user.uname,
@@ -427,7 +430,8 @@ def buy_now(request):
             "status": "",
             "date": today,
             "book_name": book_name,
-            "price": price
+            "price": price,
+            "total_price": total_price
         }
         return render(request, "read_book.html", locate)
 
@@ -518,5 +522,23 @@ def update_pass(request, id):
 
     return render(request, "update.html", {"user": user})
 
+# ---------------------------
+# Dummy Payment Views
+# ---------------------------
+
+from django.shortcuts import render, redirect
+from django.utils import timezone
+
+def payment(request):
+    if request.method == "POST":
+        # yaha tum chaho to order DB me save karna
+        # abhi simple rakhenge
+        return redirect('thankyou')
+    return render(request, "payment.html")
+
+
+def payment_success(request):
+    return render(request, "thankyou.html", {"status": "Payment successful! Order confirmed."})
+
 def thankyou(request):
-    return render(request,"thankyou.html")
+    return render(request, "thankyou.html")

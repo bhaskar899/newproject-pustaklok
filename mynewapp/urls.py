@@ -1,7 +1,5 @@
-
 from django.contrib import admin
 from django.urls import path,include
-
 from .import views
 
 urlpatterns = [
@@ -29,11 +27,9 @@ urlpatterns = [
     path("delete_order/",views.delete_order,name="delete_order"),
 
     # order book
-
     path("buy_now/",views.buy_now,name="buy_now"),
 
     # About pages
-
     path("about1/", views.about1, name="about1"),
     path("about2/",views.about2,name="about2"),
     path("about3/",views.about3,name="about3"),
@@ -74,16 +70,21 @@ urlpatterns = [
     path("about35/", views.about35, name="about35"),
     path("about36/", views.about36, name="about36"),
 
-#     Cart add message
+    # Cart add message
     path("add_to_cart/<int:book_id>/",views.add_to_cart,name="add_to_cart"),
 
-#     mail sending
+    # mail sending
     path("mail_send/", views.mail_send, name="mail_send"),
     path("email_check/", views.email_check, name="email_check"),
     path("otp_check/", views.otp_check, name="otp_check"),
     path("update_pass/<int:id>/", views.update_pass, name="update_pass"),
 
-#     thank you
-    path("thankyou/",views.thankyou,name="thankyou.html")
+    # thank you
+    path("thankyou/",views.thankyou,name="thankyou.html"),
 
+    # ---------------------------
+    # Dummy Payment Routes
+    # ---------------------------
+    path("payment/", views.payment, name="payment"),
+    path("payment_success",views.payment_success,name="payment_success")
 ]
