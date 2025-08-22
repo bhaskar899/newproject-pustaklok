@@ -5,7 +5,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-t%h%#)6d0_!h+o^z2%z2il_&dsewnq!o9)dwcmxjhqtu(yidzr')
 
-DEBUG = False # Production me DEBUG False rakho
+DEBUG = True # Production me DEBUG False rakho
 ALLOWED_HOSTS = ['*']  # Ya phir apna domain name
 
 INSTALLED_APPS = [
