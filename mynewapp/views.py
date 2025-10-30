@@ -454,7 +454,7 @@ def buy_now(request):
         if 'cart' in request.session:
             del request.session['cart']
 
-        return redirect('thankyou')
+        return redirect('payment')
 
 def delete_order(request):
     if 'a_name' in request.session:
