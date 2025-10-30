@@ -396,17 +396,16 @@ from .models import User, book
 from django.shortcuts import render, redirect
 
 def buy_now(request):
+    """Order form with autofill user info + save order."""
     if request.method == "GET":
         book_name = request.GET.get('book_name')
         price = request.GET.get('price')
 
-        # agar data missing hua to redirect to home
         if not book_name or not price:
             return redirect('home')
 
         # ✅ get username from session
         uname = request.session.get('u_name')
-
         user_name = ""
         user_email = ""
         user_contact = ""
@@ -418,7 +417,7 @@ def buy_now(request):
                 user_email = user.email
                 user_contact = user.contact
             except User.DoesNotExist:
-                pass  # if not found, keep blank
+                pass
 
         context = {
             'book_name': book_name,
@@ -432,7 +431,6 @@ def buy_now(request):
 
     elif request.method == "POST":
         uname = request.POST.get('user_name')
-        uemail = request.POST.get('user_email')
         book_name = request.POST.get('book_name')
         quantity = int(request.POST.get('quantity', 1))
         address = request.POST.get('address')
@@ -576,38 +574,55 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 
 
-def add_to_cart(request, book_id):
-    # get existing cart from session
-    cart = request.session.get('cart', {})
+from datetime import date, datetime
+from django.shortcuts import render, redirect
+from .models import User, book
 
-    # convert id to string (for session keys)
+# ---------------- CART SYSTEM ---------------- #
+
+def add_to_cart(request, book_id):
+    """Add a book to the cart with real name and price."""
+    cart = request.session.get('cart', {})
     book_key = str(book_id)
 
-    # if already in cart, increase quantity
+    # Get price and name from query parameters (URL)
+    price = request.GET.get('price')
+    name = request.GET.get('name')
+
+    # convert price safely to int
+    try:
+        price = int(price)
+    except (ValueError, TypeError):
+        price = 200  # fallback
+
     if book_key in cart:
         cart[book_key]['quantity'] += 1
     else:
-        # new book entry
         cart[book_key] = {
-            'book_name': f'Book {book_id}',  # you can replace with real book name if available
-            'price': 200,  # set static price (or fetch dynamically)
+            'book_name': name or f'Book {book_id}',
+            'price': price,
             'quantity': 1
         }
 
-    # update session
     request.session['cart'] = cart
     request.session.modified = True
-
     return redirect('view_cart')
 
-
 def view_cart(request):
+    """Display cart items with subtotal and total."""
     cart = request.session.get('cart', {})
-    total = sum(item['price'] * item['quantity'] for item in cart.values())
+
+    # Calculate subtotal for each item
+    for item in cart.values():
+        item['subtotal'] = item['price'] * item['quantity']
+
+    total = sum(item['subtotal'] for item in cart.values())
+
     return render(request, 'cart.html', {'cart': cart, 'total': total})
 
 
 def remove_from_cart(request, book_id):
+    """Remove an item completely from the cart."""
     cart = request.session.get('cart', {})
     book_key = str(book_id)
     if book_key in cart:
@@ -615,3 +630,23 @@ def remove_from_cart(request, book_id):
         request.session['cart'] = cart
         request.session.modified = True
     return redirect('view_cart')
+
+
+def update_cart(request, book_id, action):
+    """Increase or decrease quantity of an item."""
+    cart = request.session.get('cart', {})
+    book_key = str(book_id)
+
+    if book_key in cart:
+        if action == 'increase':
+            cart[book_key]['quantity'] += 1
+        elif action == 'decrease' and cart[book_key]['quantity'] > 1:
+            cart[book_key]['quantity'] -= 1
+        elif action == 'decrease' and cart[book_key]['quantity'] == 1:
+            del cart[book_key]  # remove item if 0
+
+        request.session['cart'] = cart
+        request.session.modified = True
+
+    return redirect('view_cart')
+

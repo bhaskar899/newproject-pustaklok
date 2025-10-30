@@ -88,7 +88,12 @@ urlpatterns = [
     path("payment/", views.payment, name="payment"),
     path("payment_success",views.payment_success,name="payment_success"),
 
+# CART URLS
 path("add_to_cart/<int:book_id>/", views.add_to_cart, name="add_to_cart"),
-path("cart/", views.view_cart, name="view_cart"),
+path("view_cart/", views.view_cart, name="view_cart"),
 path("remove_from_cart/<int:book_id>/", views.remove_from_cart, name="remove_from_cart"),
+path("update_cart/<int:book_id>/<str:action>/", views.update_cart, name="update_cart"),
+
+# BUY NOW
+path("buy_now/", views.buy_now, name="buy_now"),
 ]
