@@ -380,60 +380,83 @@ def add_to_cart(request,book_id):
 
 from datetime import datetime
 
+from django.shortcuts import render, redirect
+from datetime import date, datetime
+
+from django.shortcuts import render, redirect
+from datetime import date, datetime
+from .models import book
+
+from django.shortcuts import render, redirect
+from datetime import date, datetime
+from .models import book
+
+from datetime import date, datetime
+from .models import User, book
+from django.shortcuts import render, redirect
+
 def buy_now(request):
-    if "u_name" not in request.session:
-        return render(request, "login.html", {"status": "You need to login first"})
+    if request.method == "GET":
+        book_name = request.GET.get('book_name')
+        price = request.GET.get('price')
 
-    user = User.objects.get(uname=request.session["u_name"])
+        # agar data missing hua to redirect to home
+        if not book_name or not price:
+            return redirect('home')
 
-    if request.method == 'POST':
-        book_name = request.POST.get("book_name")
-        quantity = int(request.POST.get("quantity", 1))
-        address = request.POST.get("address")
-        mobile = request.POST.get("mobile")
-        total_price = int(request.POST.get("total_price", 0))
+        # ✅ get username from session
+        uname = request.session.get('u_name')
 
-        order = book(
-            uid=user.uid,
+        user_name = ""
+        user_email = ""
+        user_contact = ""
+
+        if uname:
+            try:
+                user = User.objects.get(uname=uname)
+                user_name = user.uname
+                user_email = user.email
+                user_contact = user.contact
+            except User.DoesNotExist:
+                pass  # if not found, keep blank
+
+        context = {
+            'book_name': book_name,
+            'price': price,
+            'user_name': user_name,
+            'user_email': user_email,
+            'user_contact': user_contact,
+            'date': date.today().isoformat(),
+        }
+        return render(request, 'read_book.html', context)
+
+    elif request.method == "POST":
+        uname = request.POST.get('user_name')
+        uemail = request.POST.get('user_email')
+        book_name = request.POST.get('book_name')
+        quantity = int(request.POST.get('quantity', 1))
+        address = request.POST.get('address')
+        mobile = request.POST.get('mobile')
+        total_price = int(request.POST.get('total_price', 0))
+        today = date.today()
+        time_now = datetime.now().time()
+
+        new_order = book(
+            uid=1,
             book_name=book_name,
             quantity=quantity,
             address=address,
-            date=datetime.today().date(),
-            time=datetime.now().time(),
-            mobile=mobile,
             total_price=total_price,
+            date=today,
+            time=time_now,
+            mobile=mobile,
         )
-        order.save()
+        new_order.save()
 
-        locate = {
-            "status": "Order placed successfully!",
-            "user_name": user.uname,
-            "user_contact": user.contact,
-            "user_email": user.email,
-            "date": datetime.today().date().isoformat(),
-            "book_name": book_name,
-            "total_price": total_price,
-        }
-        return render(request, "payment.html", locate)
+        if 'cart' in request.session:
+            del request.session['cart']
 
-    else:
-        today = datetime.today().date().isoformat()
-        book_name = request.GET.get("book_name", "")
-        price = request.GET.get("price", "")
-        total_price = int(price) * int(request.GET.get("quantity", 1))
-
-        locate = {
-            "user_name": user.uname,
-            "user_contact": user.contact,
-            "user_email": user.email,
-            "msg": "",
-            "status": "",
-            "date": today,
-            "book_name": book_name,
-            "price": price,
-            "total_price": total_price
-        }
-        return render(request, "read_book.html", locate)
+        return redirect('thankyou')
 
 def delete_order(request):
     if 'a_name' in request.session:
@@ -547,3 +570,48 @@ def payment_success(request):
 
 def thankyou(request):
     return render(request, "thankyou.html")
+
+
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+
+
+def add_to_cart(request, book_id):
+    # get existing cart from session
+    cart = request.session.get('cart', {})
+
+    # convert id to string (for session keys)
+    book_key = str(book_id)
+
+    # if already in cart, increase quantity
+    if book_key in cart:
+        cart[book_key]['quantity'] += 1
+    else:
+        # new book entry
+        cart[book_key] = {
+            'book_name': f'Book {book_id}',  # you can replace with real book name if available
+            'price': 200,  # set static price (or fetch dynamically)
+            'quantity': 1
+        }
+
+    # update session
+    request.session['cart'] = cart
+    request.session.modified = True
+
+    return redirect('view_cart')
+
+
+def view_cart(request):
+    cart = request.session.get('cart', {})
+    total = sum(item['price'] * item['quantity'] for item in cart.values())
+    return render(request, 'cart.html', {'cart': cart, 'total': total})
+
+
+def remove_from_cart(request, book_id):
+    cart = request.session.get('cart', {})
+    book_key = str(book_id)
+    if book_key in cart:
+        del cart[book_key]
+        request.session['cart'] = cart
+        request.session.modified = True
+    return redirect('view_cart')

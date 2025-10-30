@@ -1,0 +1,68 @@
+{% extends 'master.html' %}
+{% block title %}Your Cart{% endblock %}
+{% load static %}
+
+{% block body %}
+
+    <a href="/#login" class="btn btn-secondary" style="margin-left:30px;margin-top:30px">Back</a>
+
+<div class="container mt-5 mb-5">
+  <h2 class="text-center mb-4">
+    <i class="bi bi-cart-check"></i> Your Cart
+  </h2>
+
+  {% if cart %}
+  <table class="table table-bordered text-center align-middle shadow-sm">
+    <thead class="table-dark">
+      <tr>
+        <th>Book Name</th>
+        <th>Price (₹)</th>
+        <th>Quantity</th>
+        <th>Subtotal (₹)</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for id, item in cart.items %}
+      <tr>
+        <td>{{ item.book_name }}</td>
+        <td>{{ item.price }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.price|floatformat:2|add:"0"|floatformat:2|default:0|floatformat:2|safe }}</td>
+        <td>
+          <a href="{% url 'remove_from_cart' id %}" class="btn btn-danger btn-sm">Remove</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- ✅ Total -->
+  <div class="text-end me-5">
+    <h4><strong>Total:</strong> ₹{{ total }}</h4>
+  </div>
+
+  <!-- ✅ Proceed Button -->
+ <a href="{% url 'buy_now' %}?book_name=Cart&price={{ total }}"
+   class="btn btn-success btn-lg">
+   Proceed to Buy
+</a>
+
+  {% else %}
+  <div class="text-center mt-5">
+    <h5>Your cart is empty 🛒</h5>
+    <a href="{% url 'login' %}" class="btn btn-primary mt-3">Continue Shopping</a>
+  </div>
+  {% endif %}
+</div>
+
+<style>
+  .bi-cart-check {
+      font-size: 1.8rem;
+      color: #2c3e50;
+  }
+  table th, table td {
+      vertical-align: middle;
+  }
+</style>
+{% endblock %}

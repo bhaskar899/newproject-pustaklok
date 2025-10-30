@@ -86,5 +86,9 @@ urlpatterns = [
     # Dummy Payment Routes
     # ---------------------------
     path("payment/", views.payment, name="payment"),
-    path("payment_success",views.payment_success,name="payment_success")
+    path("payment_success",views.payment_success,name="payment_success"),
+
+path("add_to_cart/<int:book_id>/", views.add_to_cart, name="add_to_cart"),
+path("cart/", views.view_cart, name="view_cart"),
+path("remove_from_cart/<int:book_id>/", views.remove_from_cart, name="remove_from_cart"),
 ]
