@@ -404,7 +404,7 @@ def buy_now(request):
         if not book_name or not price:
             return redirect('home')
 
-        # ✅ get username from session
+        #  get username from session
         uname = request.session.get('u_name')
         user_name = ""
         user_email = ""
@@ -473,6 +473,10 @@ def mail_send(request):
         return render(request,"email_form.html")
 
 
+def mail_send(request):
+    return render(request, "email_form.html")
+
+
 def email_check(request):
     if request.method == "POST":
         email = request.POST.get("email")
@@ -505,6 +509,7 @@ def email_check(request):
 
     return render(request, "enter_email.html")
 
+
 def otp_check(request):
     if request.method == "POST":
         entered_otp = request.POST.get("otp")  # from form input
@@ -517,13 +522,13 @@ def otp_check(request):
     return render(request, "enter_otp.html")
 
 
-
 from django.contrib.auth.hashers import make_password
 
 from django.db import IntegrityError
 
 from django.contrib import messages
 from .models import User  # Make sure to import your User model
+
 
 def update_pass(request, id):
     try:
@@ -548,7 +553,56 @@ def update_pass(request, id):
 
     # For a GET request, just render the page
     return render(request, "update_pass.html", {"user": user})
-# ---------------------------
+
+# In mynewapp.views
+def otp_check(request):
+    if request.method == "POST":
+        entered_otp = request.POST.get("otp")
+        saved_otp = request.session.get("otp")
+        email = request.session.get("reset_email") # Retrieves the stored email
+
+        if str(entered_otp) == str(saved_otp):
+            try:
+                user = User.objects.get(email=email)
+                # FIX 1: Redirect using the correct URL pattern with the user's 'uid'
+                # Note: Assuming your User model uses 'uid' for the ID field.
+                return redirect("update_pass", id=user.uid)
+            except User.DoesNotExist:
+                return render(request, "enter_otp.html", {"msg": "No user found with this email."})
+        else:
+            return render(request, "enter_otp.html", {"msg": "Wrong OTP"})
+    return render(request, "enter_otp.html")
+from django.contrib.auth.hashers import make_password
+
+from django.db import IntegrityError
+
+from django.contrib import messages
+from .models import User  # Make sure to import your User model
+
+def update_pass(request, id):
+    try:
+        user = User.objects.get(uid=id)
+    except User.DoesNotExist:
+        messages.error(request, "User not found.")
+        return redirect("mail_send")  # back to email form if user missing
+
+    if request.method == "POST":
+        new_password = request.POST.get("new_password")
+        confirm_password = request.POST.get("confirm_password")
+
+        if new_password and confirm_password:
+            if new_password == confirm_password:
+                user.password = new_password  # ⚠ If plain-text, consider hashing later
+                user.save()
+                messages.success(request, "Password updated successfully!")
+                return redirect("login")
+            else:
+                messages.error(request, "Passwords do not match.")
+        else:
+            messages.error(request, "Please fill all fields.")
+
+    return render(request, "update_pass.html", {"user": user})
+    # ---------------------------
 # Dummy Payment Views
 # ---------------------------
 
